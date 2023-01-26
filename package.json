@@ -1,0 +1,19 @@
+{
+  "name": "m4-sp1-lista-de-compras-renangiaretta",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Kenzie-Academy-Brasil-Developers/m4-sp1-lista-de-compras-renangiaretta.git",
+  "author": "renangiaretta <ranan.giaretta@hotmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "ts-node-dev --cls --rs --ignore-watch node_modules src/app.ts"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.16",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
