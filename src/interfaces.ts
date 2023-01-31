@@ -6,9 +6,11 @@ interface IListRequest {
 
 interface data {
     name    : string
-    quantity: string
+    quantity: number
 }
 
-type listRequiredKeys = 'listName' | 'data'
+type IListRequiredKeys = 'listName' | 'data'
 
-export { IListRequest, data, listRequiredKeys }
+type IDataRequiredKeys = 'name' | 'quantity'
+
+export { IListRequest, data, IListRequiredKeys, IDataRequiredKeys }
