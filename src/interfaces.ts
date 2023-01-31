@@ -1,14 +1,14 @@
 interface IListRequest {
     listName: string
-    data: data[]
-    id: number | undefined
+    data    : data[]
+    id      : number
 }
 
 interface data {
-    name: string
+    name    : string
     quantity: string
 }
 
-type listRequiredKeys = 'listName' | 'data' 
+type listRequiredKeys = 'listName' | 'data'
 
 export { IListRequest, data, listRequiredKeys }

@@ -2,14 +2,14 @@ import { lists } from "./database"
 import { IListRequest, listRequiredKeys } from "./interfaces"
 import  { Request, Response } from 'express'
 
-let startId: number = 0
+let startId: number = 1
 function generateId () {
     return startId++
 }
 
 const validateListData = (payload: any): IListRequest => {
 
-    const keys: Array<string> = Object.keys(payload)
+    const keys: Array<string>                   = Object.keys(payload)
     const requiredKeys: Array<listRequiredKeys> = ['listName', 'data']
     
     const containsAllRequired: boolean = requiredKeys.every((key: string) => {
@@ -25,7 +25,7 @@ const validateListData = (payload: any): IListRequest => {
 const creteNewList = (request: Request, response: Response): Response => {
 
     try {
-        const listData: IListRequest = validateListData(request.body)
+        const listData: IListRequest    = validateListData(request.body)
         const newListData: IListRequest = {
             ...listData,
             id: generateId()
@@ -45,7 +45,14 @@ const creteNewList = (request: Request, response: Response): Response => {
 }
 
 const getAllLists = ( request: Request, response: Response ): Response => {
-    return response.status(200).json(lists)
+    try {
+        return response.status(200).json(lists)
+        
+    } catch (error) {
+        return response.status(404).json({
+            message: '404 NOT FOUND'
+        })
+    }
 }
 
 const getListById = (request: Request, response: Response): Response => {
@@ -56,38 +63,46 @@ const getListById = (request: Request, response: Response): Response => {
         console.log(indexList)
         return response.status(200).json(lists[indexList])
     } else {
-        return response.status(200).json('List not found.')
+        return response.status(200).json({
+            message: '404 NOT FOUND'
+        })
     }
 }
 
 const deleteList = (request: Request, response: Response): Response => {
-    const id: number = parseInt(request.params.id)
-    let indexList: number = lists.findIndex(el => el.id === id)
+    const id: number        = parseInt(request.params.id)
+    let   indexList: number = lists.findIndex(el => el.id === id)
     if(indexList === id){
         lists.splice(indexList, 1)
         console.log(lists[indexList].data)
-        return response.sendStatus(204)
+        return response.status(204)
     } else {
-        return response.status(404).json({'message': 'List not found.'})
+        return response.status(404).json({
+            message: '404 NOT FOUND'
+        })
     }
 }
 
 const deleteListItem = (request: Request, response: Response): Response => {
 
     try {
-        const id: number = parseInt(request.params.id)
-    let indexList: number = lists.findIndex(el => el.id === id)
-    const name: string = request.params.name
-    let indexName: number = lists[indexList].data.findIndex(el => el.name === name)
+        const id: number        = parseInt(request.params.id)
+        let   indexList: number = lists.findIndex(el => el.id === id)
+        const name: string      = request.params.name
+        let   indexName: number = lists[indexList].data.findIndex(el => el.name === name)
     if(indexName >= 0 && indexList === id){
             lists[indexList].data.splice(indexName, 1)
-        return response.sendStatus(204)
+        return response.status(204)
     }
     else {
-        return response.status(404).json({'message': `${name} does not belong to the list.`})
+        return response.status(404).json({
+            message: `${name} does not belong to the list.`
+        })
     }
     } catch (error) {
-        return response.status(500).json({'message': `${error}`})
+        return response.status(500).json({
+            message: `${error}`
+        })
     }
 }
 
