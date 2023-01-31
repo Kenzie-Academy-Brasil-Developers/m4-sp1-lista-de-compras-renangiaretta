@@ -1,15 +1,31 @@
 import { lists } from "./database"
-import { IListRequest } from "./interfaces"
+import { IListRequest, listRequiredKeys } from "./interfaces"
 import  { Request, Response } from 'express'
 
 let startId: number = 0
 function generateId () {
     return startId++
 }
+
+const validateListData = (payload: any): IListRequest => {
+
+    const keys: Array<string> = Object.keys(payload)
+    const requiredKeys: Array<listRequiredKeys> = ['listName', 'data']
+    
+    const containsAllRequired: boolean = requiredKeys.every((key: string) => {
+        console.log(keys)
+       return keys.includes(key)
+    })
+    if(!containsAllRequired || keys.length > 2){
+        throw new Error(`Required keys are: ${requiredKeys}. Nothing else!`)
+    }
+    return payload
+}
+
 const creteNewList = (request: Request, response: Response): Response => {
 
     try {
-        const listData: IListRequest = request.body
+        const listData: IListRequest = validateListData(request.body)
         const newListData: IListRequest = {
             ...listData,
             id: generateId()
@@ -17,7 +33,14 @@ const creteNewList = (request: Request, response: Response): Response => {
         lists.push(newListData)
         return response.status(201).json(newListData)
     } catch (error) {
-        return response.status(404).json('List not found.')
+        if(error instanceof Error){
+            return response.status(400).json({
+                message: error.message
+            })
+        }
+        return response.status(500).json({
+            message: 'Internal server error.'
+        })
     }
 }
 

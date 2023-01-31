@@ -9,4 +9,6 @@ interface data {
     quantity: string
 }
 
-export { IListRequest, data}
+type listRequiredKeys = 'listName' | 'data' 
+
+export { IListRequest, data, listRequiredKeys }
