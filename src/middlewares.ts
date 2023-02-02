@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from 'express'
 import { lists } from './database'
 import { IDataRequiredKeys } from './interfaces'
 
+
+
 const deleteListMiddleware  = (request: Request, response: Response, next: NextFunction): Response | void => {
     const id: number        = parseInt(request.params.id)
     let   indexList: number = lists.findIndex(el => el.id === id)
@@ -20,23 +22,20 @@ const validateDataMiddleware = (request: Request, response: Response, next: Next
     const validatedKeys: boolean                 = requiredKeys.every((key: string) => keys.includes(key))
 
     const { name, quantity } = request.body
-// testes
-    const id: number        = parseInt(request.params.id)
+    const id: number         = parseInt(request.params.id)
     
     request.validateData = {
         name,
         quantity
     }
     try {
-        let   indexList: number = lists.findIndex(el => el.id === id)
+        let indexList: number = lists.findIndex(el => el.id === id)
         if(indexList === -1){
-            console.log(indexList)
             return response.status(404).json({
                 message: `The list with id ${id} does not exist.`
             }) 
         }
         else if(!validatedKeys) {
-            console.log(request.params)
             return response.status(400).json({
                 message: `Invalid data - spected ${requiredKeys}`
             })

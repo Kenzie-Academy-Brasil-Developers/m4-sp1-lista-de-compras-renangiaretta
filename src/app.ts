@@ -1,5 +1,5 @@
 import express, { Application } from 'express'
-import { creteNewList, getAllLists, getListById, deleteList, deleteListItem, updateList } from './logic'
+import { creteNewList, getAllLists, getListById, deleteList, deleteListItem, updateList} from './logic'
 import { deleteListMiddleware, validateDataMiddleware } from './middlewares'
 
 const app: Application = express()

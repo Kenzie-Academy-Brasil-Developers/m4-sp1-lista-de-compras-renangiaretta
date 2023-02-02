@@ -1,10 +1,14 @@
 import { lists } from './database'
 import { IListRequest, IListRequiredKeys } from './interfaces'
-import  { json, Request, Response } from 'express'
+import  { Request, Response } from 'express'
 
-let startId: number = 1
+
 function generateId () {
-    return startId++
+    if(lists.length === 0){
+        return 1
+    } else {
+        return lists[lists.length -1].id + 1
+    }
 }
 
 const validateListData = (payload: any): IListRequest => {
@@ -114,7 +118,7 @@ const deleteListItem = (request: Request, response: Response): Response => {
     let   indexList: number = lists.findIndex(el => el.id === id)
     const name: string      = request.params.name
     if(indexList!== -1 && lists[indexList] && lists[indexList].data){
-        let   indexName: number = lists[indexList].data.findIndex(el => el.name === name)
+        let indexName: number = lists[indexList].data.findIndex(el => el.name === name)
         try {
             if(indexName !== -1 && indexList !== -1 && lists[indexList].data){
                 lists[indexList].data.splice(indexName, 1)

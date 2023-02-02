@@ -9,5 +9,8 @@ declare global {
                 quantity: string
             }
         }
+        interface Response {
+            status: number
+        }
     }
 }
