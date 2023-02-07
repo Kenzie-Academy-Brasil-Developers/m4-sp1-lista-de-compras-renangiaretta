@@ -16,7 +16,7 @@ const validateListData = (payload: any): IListRequest => {
     const keys: Array<string>                    = Object.keys(payload)
     const requiredKeys: Array<IListRequiredKeys> = ['listName', 'data']
     const containsAllRequired: boolean           = requiredKeys.every((key: string) => {
-       return keys.includes(key)
+    return keys.includes(key)
     })
     if(!containsAllRequired || keys.length > 2){
         throw new Error(`Required keys are: ${requiredKeys}. Nothing else!`)
@@ -138,16 +138,16 @@ const deleteListItem = (request: Request, response: Response): Response => {
 }
 
 const updateList = (request: Request, response: Response): Response => {
-     try {
+    try {
         const id: number        = parseInt(request.params.id)
         let   indexList: number = lists.findIndex(el => el.id === id)
         const name: string      = request.params.name
         let   indexName: number = lists[indexList].data.findIndex(el => el.name === name)
         lists[indexList].data.splice(indexName, 1, request.body)
         return response.status(204).json()
-     } catch (error){
+    } catch (error){
         return response.status(404)
-     }
+    }
 }
 
 export { generateId, creteNewList, getAllLists, getListById, deleteList, deleteListItem, updateList }
