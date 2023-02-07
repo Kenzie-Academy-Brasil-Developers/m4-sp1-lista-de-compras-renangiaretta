@@ -3,7 +3,7 @@ import { lists } from './database'
 import { IDataRequiredKeys } from './interfaces'
 
 
-
+// ---------------------------------------------------------------------------------------------
 const deleteListMiddleware  = (request: Request, response: Response, next: NextFunction): Response | void => {
     const id: number        = parseInt(request.params.id)
     let   indexList: number = lists.findIndex(el => el.id === id)
@@ -16,6 +16,9 @@ const deleteListMiddleware  = (request: Request, response: Response, next: NextF
         })
     }
 }
+
+
+// ---------------------------------------------------------------------------------------------
 const validateDataMiddleware = (request: Request, response: Response, next: NextFunction): Response | void => {
     const keys: Array<string>                    = Object.keys(request.body)
     const requiredKeys: Array<IDataRequiredKeys> = [ 'name', 'quantity' ]
